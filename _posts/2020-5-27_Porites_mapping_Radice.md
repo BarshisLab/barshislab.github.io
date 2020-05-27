@@ -1,5 +1,6 @@
 ---
 layout: post
+title: Porites astreoides transcriptome data processing
 date: '2020-05-27'
 categories: Protocols
 tags: [RNASeq, Bioinformatics]
