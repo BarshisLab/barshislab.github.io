@@ -1,3 +1,10 @@
+---
+layout: post
+date: '2020-05-27'
+categories: Protocols
+tags: [RNASeq, Bioinformatics]
+------
+
 # Coral transcriptome data processing
 
 ### 2-year transplant of Porites astreoides 
