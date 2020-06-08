@@ -8,7 +8,7 @@ tags: [RNASeq, Bioinformatics]
 
 # Coral transcriptome data processing
 
-### 2-year transplant of Porites astreoides 
+### 2-year transplant of *Porites astreoides* 
 - Puerto Morelos, Mexico
 - from low pH ojo (submarine discharge spring) and high pH control site to low pH ojo and control site
 - Ana Martinez (PhD candidate) & Adina Paytan (PI) & Dan Barshis (PI)
@@ -22,29 +22,32 @@ tags: [RNASeq, Bioinformatics]
 
 ## Data
 - raw data (year 2 of transplant, fastq g-zipped) backed up on RC drive
-- contains data for multiple species:  Porites astreoides, Porites porites, Siderastrea
-``` sh
-/RC/group/rc_barshis_lab/taxonarchive/AdinaOA/2017_April/gslserver.qb3.berkeley.edu/170419_50SR_HS4K2A/Paytan
-```
+- contains data for multiple species:  *Porites astreoides*, *Porites porites*, *Siderastrea*
+
+> /RC/group/rc_barshis_lab/taxonarchive/AdinaOA/2017_April/gslserver.qb3.berkeley.edu/170419_50SR_HS4K2A/Paytan
+
 - other raw data from Paytan (year 1 data?) backed up on RC drive:
-``` sh
-/RC/group/rc_barshis_lab/taxonarchive/AdinaOA/2014_October/AdinaOA_2014_October_rawdata.tar.gz
-```
+
+> /RC/group/rc_barshis_lab/taxonarchive/AdinaOA/2014_October/AdinaOA_2014_October_rawdata.tar.gz
+
 ### Files:
-``` sh
-/RC/group/rc_barshis_lab/taxonarchive/AdinaOA/Porites_astreoides/
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan
-```
+
+> /RC/group/rc_barshis_lab/taxonarchive/AdinaOA/Porites_astreoides/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan
+
 ----------------------------------------------------------------------------------------------
 ## Rename sequencing files with shorter names with relevant sample ID information 
-``` sh
 renamer_advbioinf.py
 
-cd /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan
+
 renamingtable_yr2.txt
-```
-#### Header:
-#### OldName	NewName
+
+Example:  
+| OldName	| NewName |
+| --- | --- |
+| APDB20_A_NO_261_C_Pa_yr2_A1_S1_L001_R1_001.fastq | NO_261_C_Pa_yr2_R1.fastq |
+| APDB20_B_NO_264_C_Pa_yr2_B1_S2_L001_R1_001.fastq | NO_264_C_Pa_yr2_R1.fastq |
 
 ``` sh
 nano renamer_yr2.sh
@@ -65,8 +68,8 @@ nano renamer_yr2.sh
 
 ----------------------------------------------------------------------------------------------
 ## make adapter list 
-be aware of formatting (e.g., extra spaces, extra lines) (in Excel)
-ideally, list is made as .txt file
+Be aware of formatting (e.g., extra spaces, extra lines) (in Excel)
+Ideally, list is made as .txt file
 
 First column with individual .fastq file name (starting with '>'), second column with associated adapter sequence, no header line in file
 
@@ -75,13 +78,13 @@ If adapter sequence is short, then need to find the long version of each adapter
 - use Illumina adapter sequence list (for specific sequencer) to find “index” adapter sequences
 - for this project, TruSeq (Index 1-27) was used 
 
-Secure copy adapter list file from local machine to folder in the cluster
+Secure copy adapter list file from local machine to folder in the cluster.
 
 ----------------------------------------------------------------------------------------------
 ## adapter trimming-clipping-quality filtering for all files 
 can do this in separate batches
 
-/cm/shared/courses/dbarshis/15AdvBioinf/scripts/
+> /cm/shared/courses/dbarshis/15AdvBioinf/scripts/
 Trimclipfilterstatsbatch_advbioinf.py
 
 ```
@@ -100,9 +103,11 @@ nano TrimClipFilter.sh
 /cm/shared/courses/dbarshis/15AdvBioinf/scripts/Trimclipfilterstatsbatch_advbioinf.py adapterlist.txt *.fastq
 ```
 
-sbatch TrimClipFilter.sh 
+```
+sbatch TrimClipFilter.sh
+```
 
-check output file for information
+Check output file for information
 ```
 cat TrimClipFilter.txt
 ```
@@ -113,7 +118,9 @@ cat TrimClipFilter.txt
 cat trimclipstats.txt
 
 in P_ast folder (both NC and NO files - both Porites astreoides)
+```
 cat /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NC/filteringstats/trimclipstats.txt /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/filteringstats/trimclipstats.txt > trimclipstats_final.txt
+```
 
 ```
 nano filterstats.sh
@@ -140,7 +147,7 @@ copy output of trim clip stats onto local machine
 
 #### Download reefgenomics transcriptome
 - download CDS (coding sequence file) for P. astreoides
-http://comparative.reefgenomics.org/datasets.html
+[http://comparative.reefgenomics.org/datasets.html](http://comparative.reefgenomics.org/datasets.html)
 
 #### Download Carly Kenkel's transcriptome
 - pastreoides_2014 folder > pastreoides_may2014 (Dropbox) 
@@ -150,36 +157,37 @@ http://comparative.reefgenomics.org/datasets.html
 - Carly Kenkel has actually stopped using this assembly herself as its not as complete as she would like 
 - only about 70% complete, and most of the genes are only partials based on comparisons to the BUSCO gene set
 - in shared directory, file known as P_ast_Kenkel
-https://matzlab.weebly.com/data--code.html 
+[https://matzlab.weebly.com/data--code.html](https://matzlab.weebly.com/data--code.html) 
 
 #### Download updated Kenkel transcriptome
-- Carly Kenkel has her students currently mapping to a version of the Mansour et al 2016 multi-life stage assembly
-https://academic.oup.com/gigascience/article/5/1/s13742-016-0138-1/2720993 
+- Carly Kenkel and her students currently mapping to a version of the Mansour et al 2016 multi-life stage assembly
+- [https://academic.oup.com/gigascience/article/5/1/s13742-016-0138-1/2720993](https://academic.oup.com/gigascience/article/5/1/s13742-016-0138-1/2720993) 
 - Carly recleaned, refiltered and reannotated using a slightly modified version of Sheila Kitchen’s pipeline 
-- pipeline that Carly has used for other de novo assemblies - https://academic.oup.com/gigascience/article/6/9/gix074/4091589  
+- pipeline that Carly has used for other de novo assemblies 
+- [https://academic.oup.com/gigascience/article/6/9/gix074/4091589](https://academic.oup.com/gigascience/article/6/9/gix074/4091589)  
 - This is 86-87% complete (again, based on BUSCO comparison) and 59% annotated
 - This host reference is derived from the multi-life stage transcriptome of Porites astreoides
-- originally sequenced by Mansour et al (2016) doi: 10.1186/s13742-016-0138-1 (Project accession: GEHP0000000)
+- originally sequenced by Mansour et al (2016) doi: [10.1186/s13742-016-0138-1](10.1186/s13742-016-0138-1) (Project accession: GEHP0000000)
 - The holobiont Trinity assembly was downloaded by C. Kenkel and refiltered to identify the host-specific contigs as described in Kenkel & Bay (2017) 
-https://doi.org/10.1093/gigascience/gix074
+- [https://doi.org/10.1093/gigascience/gix074](https://doi.org/10.1093/gigascience/gix074)
 
 ##### P_ast_full_Kenkel
 - Past_host_All_iso.fasta 
-/cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel/
+> /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel/
 
 ##### Notes: 
-Contigs were filtered for biological contamination using a series of blastx searches to the Acropora digitifera 
-and Symbiodinium kawagutii proteomes and NCBI's nr database. Host contigs were clustered into isogroups (=genes) and 
-annotated using blastx comparisons against the UniProt Swiss-Prot database. Correspondence tables (.tab)list association 
-between contigs and isogroups (seq2iso), gene name (iso2gene), as well as Gene Ontology (iso2go), and KEGG (iso2kegg) annotations.
-Annotations also include a file	of protein translations	and corresponding coding sequences extracted from the transcriptome 
-based on blastx hits to the UniProtKB Swiss-Prot database. Annotations were completed in 03/2019.
-
-See <TBD> for additional details regarding the assembly.
-These data are free to use without restriction,  but please cite above refs if using this resource. 
-
-Contact ckenkel[at]usc[dot]edu with questions/concerns.
+> Contigs were filtered for biological contamination using a series of blastx searches to the Acropora digitifera 
+> and Symbiodinium kawagutii proteomes and NCBI's nr database. Host contigs were clustered into isogroups (=genes) and 
+> annotated using blastx comparisons against the UniProt Swiss-Prot database. Correspondence tables (.tab)list association 
+> between contigs and isogroups (seq2iso), gene name (iso2gene), as well as Gene Ontology (iso2go), and KEGG (iso2kegg) annotations.
+> Annotations also include a file	of protein translations	and corresponding coding sequences extracted from the transcriptome 
+> based on blastx hits to the UniProtKB Swiss-Prot database. Annotations were completed in 03/2019.
+>
+> See <TBD> for additional details regarding the assembly.
+> These data are free to use without restriction,  but please cite above refs if using this resource. 
+> 
+> Contact ckenkel[at]usc[dot]edu with questions/concerns.
 
 ##### from Carly Kenkel (04/16/2020):
 - BUSCO stats for this version of the Mansour assembly are below, for your reference:
@@ -251,10 +259,12 @@ secure copy transcriptomes to directories
 avg_cov_len_fasta_advbioinf.py
 
 #### P_ast_Kenkel
-past_CDS.fas
+- past_CDS.fas
 
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fas
+```
+
 ```
 The total number of sequences is 18763
 The average sequence length is 377
@@ -267,13 +277,15 @@ contigs < 150bp = 2226
 contigs >= 500bp = 3820
 contigs >= 1000bp = 658
 contigs >= 2000bp = 36
+```
 
 #### P_ast_full_Kenkel
-Past_host_All_iso.fasta
+- Past_host_All_iso.fasta
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fasta
 ```
 
+```
 The total number of sequences is 82805
 The average sequence length is 1842
 The total number of bases is 152548553
@@ -285,10 +297,13 @@ contigs < 150bp = 0
 contigs >= 500bp = 74032
 contigs >= 1000bp = 51002
 contigs >= 2000bp = 27346
+```
 
 #### P_ast_reefgenomics
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fna
+```
+
 ```
 The total number of sequences is 15755
 The average sequence length is 519
@@ -301,6 +316,7 @@ contigs < 150bp = 0
 contigs >= 500bp = 5583
 contigs >= 1000bp = 896
 contigs >= 2000bp = 48
+```
 
 --------------------------------------------------------------------------------------------
 ## make transcriptomes mappable
@@ -360,6 +376,7 @@ cat bowtie2_past_rg.txt
 ```
 
 ##### NOT FILTERED
+```
 11663192 reads; of these:
   11663192 (100.00%) were unpaired; of these:
     10695849 (91.71%) aligned 0 times
@@ -380,8 +397,10 @@ cat bowtie2_past_rg.txt
     950394 (7.25%) aligned exactly 1 time
     171802 (1.31%) aligned >1 times
 8.57% overall alignment rate
+```
 
 ##### FILTERED
+```
 11451437 reads; of these:
   11451437 (100.00%) were unpaired; of these:
     10498837 (91.68%) aligned 0 times
@@ -402,7 +421,7 @@ cat bowtie2_past_rg.txt
     936760 (7.27%) aligned exactly 1 time
     169607 (1.32%) aligned >1 times
 8.58% overall alignment rate
-
+```
 
 #### test Kenkel P. astreoides transcriptome
 - initially tried the partial past_CDS file
@@ -441,6 +460,7 @@ cat bowtie2_past_k.txt
 ```
 
 ##### NOT FILTERED
+```
 11663192 reads; of these:
   11663192 (100.00%) were unpaired; of these:
     9226577 (79.11%) aligned 0 times
@@ -461,8 +481,10 @@ cat bowtie2_past_k.txt
     1515973 (11.57%) aligned exactly 1 time
     1322426 (10.09%) aligned >1 times
 21.66% overall alignment rate
+```
 
 ##### FILTERED
+```
 11451437 reads; of these:
   11451437 (100.00%) were unpaired; of these:
     9050624 (79.03%) aligned 0 times
@@ -483,6 +505,7 @@ cat bowtie2_past_k.txt
     1495319 (11.60%) aligned exactly 1 time
     1304519 (10.12%) aligned >1 times
 21.72% overall alignment rate
+```
 
 --------------------------------------------------------------------------------------------
 ## Test to compare different P. astreoides references
@@ -505,11 +528,12 @@ Alignment is very low for /cm/shared/courses/dbarshis/barshislab/referenceomes/P
 
 #### check quality of assemblies
 
-test past_CDS_Kenkel_2014
+Test past_CDS_Kenkel_2014
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py KenkelTranscriptome.fasta
 ```
 
+```
 The total number of sequences is 18763
 The average sequence length is 377
 The total number of bases is 7077774
@@ -521,12 +545,14 @@ contigs < 150bp = 2226
 contigs >= 500bp = 3820
 contigs >= 1000bp = 658
 contigs >= 2000bp = 36
+```
 
-test past_full_Kenkel_2014
+Test past_full_Kenkel_2014
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py past.fasta
 ```
 
+```
 The total number of sequences is 30740
 The average sequence length is 550
 The total number of bases is 16907062
@@ -538,12 +564,14 @@ contigs < 150bp = 899
 contigs >= 500bp = 11640
 contigs >= 1000bp = 3274
 contigs >= 2000bp = 325
+```
 
-test Past_host_All_iso_2020
+Test Past_host_All_iso_2020
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py Past_host_All_iso.fasta
 ```
 
+```
 The total number of sequences is 82805
 The average sequence length is 1842
 The total number of bases is 152548553
@@ -555,6 +583,7 @@ contigs < 150bp = 0
 contigs >= 500bp = 74032
 contigs >= 1000bp = 51002
 contigs >= 2000bp = 27346
+```
 
 #### make file mappable
 need bowtie build module - creates 6 files for mapping
@@ -574,7 +603,7 @@ bowtie2-build /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astre
 #### Compare 3 P. astreoides assemblies with subset of samples
 
 ##### test past_CDS_Kenkel_2014
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_Kenkel/ 
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_Kenkel/ 
 
 nano mapreads_past.sh
 
@@ -599,16 +628,20 @@ bowtie2 --local -x /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_as
 bowtie2 --local -x /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_Kenkel/test_past_CDS_Kenkel_2014 -U /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/NC_292_La_Pa_yr2_R1_clippedtrimmed_nofilter.fastq -S NC_292_La_Pa_nof_test_past_CDS_Kenkel_2014.sam -k 5\n
 ```
 
+```
 sbatch mapreads_past.sh
+```
 
 ```
 cat bowtie2_test_past_CDS_Kenkel_2014.txt 
 ```
 
 ##### test past_full_Kenkel_2014
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014
 
+```
 nano mapreads_past.sh
+```
 
 ```
 #!/bin/bash -l
@@ -631,16 +664,20 @@ bowtie2 --local -x /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_as
 bowtie2 --local -x /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014/test_past_full_Kenkel_2014 -U /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/NC_292_La_Pa_yr2_R1_clippedtrimmed_nofilter.fastq -S NC_292_La_Pa_nof_test_past_full_Kenkel_2014.sam -k 5\n
 ```
 
+```
 sbatch mapreads_past.sh
+```
 
 ```
 cat bowtie2_test_past_full_Kenkel_2014.txt 
 ```
 
 ##### test Past_host_All_iso_2020
-/cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/
+> /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/
 
+```
 nano mapreads_past.sh
+```
 
 ```
 #!/bin/bash -l
@@ -663,7 +700,9 @@ bowtie2 --local -x /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_
 bowtie2 --local -x /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/test_Past_host_All_iso_2020 -U /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/NC_292_La_Pa_yr2_R1_clippedtrimmed_nofilter.fastq -S NC_292_La_Pa_nof_test_Past_host_All_iso_2020.sam -k 5\n
 ```
 
+```
 sbatch mapreads_past.sh
+```
 
 ```
 cat bowtie2_test_Past_host_All_iso_2020.txt
@@ -677,13 +716,14 @@ Samples had greatest alignment with 2014 full Past assembly (past.fasta), so usi
 - ArifITS2_mec12869-sup-0001-FileS1.txt
 
 make separate folders for different references in refassembly folder
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/Arif_ITS2
-
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/Arif_ITS2
 
 #### check quality of assemblies
 Arif_ITS2
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.txt
+```
+
 ```
 The total number of sequences is 433
 The average sequence length is 279
@@ -696,12 +736,13 @@ contigs < 150bp = 0
 contigs >= 500bp = 0
 contigs >= 1000bp = 0
 contigs >= 2000bp = 0
+```
 
 --------------------------------------------------------------------------------------------
 ## map all P. astreoides sequence files to Arif ITS2 (all clades) reference
 - ran separate jobs from respective directories (subset-fastq_NC/QCFastqs/nofilter and subset-fastq_NO/QCFastqs/nofilter)
 - set up parallel array alignment jobs using (Misha Matz's) bowtie parameters 
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NC/QCFastqs/nofilter
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NC/QCFastqs/nofilter
 
 ##### make file mappable
 need bowtie build module - creates 6 files for mapping
@@ -716,7 +757,9 @@ bowtie2-build ArifITS2_mec12869-sup-0001-FileS1.txt Arif_ITS2
 
 ##### mapping to Arif_ITS2 reference
 
+```
 nano mapreads_Arif_ITS2.sh
+```
 
 ```
 #!/bin/bash -l
@@ -735,14 +778,18 @@ for i in *_clippedtrimmed_nofilter.fastq ; do bowtie2 --rg-id ${i%_clippedtrimme
 > ${i%_clippedtrimmed_nofilter.fastq}_nof_Arif_ITS2.sam -k 5\n; done
 ```
 
+```
 sbatch mapreads_Arif_ITS2.sh
+```
 
 now do the same for directory /subset-fastq_NO/QCFastqs/nofilter
 
 --------------------------------------------------------------------------------------------
 ## Count expression - all reads mapped to Arif_ITS2 symbiont reference
 
+```
 nano countexpression_Arif_ITS2.sh 
+```
 
 ```
 #!/bin/bash -l
@@ -756,7 +803,9 @@ nano countexpression_Arif_ITS2.sh
 /cm/shared/courses/dbarshis/barshislab/CCourtney/PoloRNASeq/scripts/countxpression_SB_advbioinf.py /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/*.sam
 ```
 
+```
 sbatch countexpression_Arif_ITS2.sh
+```
 
 then do the same for subset-fastq_NC
 
@@ -781,9 +830,11 @@ for f in *_R1_nof_Arif_ITS2_counts.txt; do sed -i "s/$/\t$f/" $f; done
 --------------------------------------------------------------------------------------------
 ## concatenate all NC and NO Arif_ITS2_counts.txt files into one merged file
 NC folder
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NC/QCFastqs/nofilter/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NC/QCFastqs/nofilter/
 
+```
 nano append_filename.sh
+```
 
 ```
 #!/bin/bash -l
@@ -797,22 +848,30 @@ nano append_filename.sh
 for f in *_R1_nof_Arif_ITS2_counts.txt; do sed -i "s/$/\t$f/" $f; done
 ```
 
+```
 sbatch append_filename.sh
+```
 
-then concatenate all NC files
+Then concatenate all NC files
 ```
 cat *_R1_nof_Arif_ITS2_counts.txt > merged_NC_ITS2_counts.txt
 ```
 
 NO folder
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/
 
+```
 nano append_filename.sh
+```
+
+```
 sbatch append_filename.sh
+```
 
 ```
 cat *_R1_nof_Arif_ITS2_counts.txt > merged_NO_ITS2_counts.txt
 ```
+
 ```
 cp /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NC/QCFastqs/nofilter/merged_NC_ITS2_counts.txt /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/
 ```
@@ -835,11 +894,14 @@ For n=40 Porites astreoides samples with matched reads:
 - took ITS2 contigs across clade A, F, C, I
 - ran separate jobs from respective directories (subset-fastq_NC/QCFastqs/nofilter and subset-fastq_NO/QCFastqs/nofilter)
 - set up parallel array alignment jobs using (Misha Matz's) bowtie parameters 
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter
 
 ##### make file mappable
 need bowtie build module - creates 6 files for mapping
+
+```
 module load bowtie2/2.2.4
+```
 
 bowtie mapping
 ```
@@ -848,7 +910,9 @@ bowtie2-build Past_mapped_Arif-ITS2_4-dominant-clades.txt top-4-clade_ITS2
 
 #### mapping top-4-clade_ITS2 contigs
 
+```
 nano mapreads_top-4-clade_ITS2.sh
+```
 
 ```
 #!/bin/bash -l
@@ -867,13 +931,17 @@ for i in *_clippedtrimmed_nofilter.fastq ; do bowtie2 --rg-id ${i%_clippedtrimme
 > ${i%_clippedtrimmed_nofilter.fastq}_nof_top-4-clade_ITS2.sam -k 5\n; done
 ```
 
+```
 sbatch mapreads_top-4-clade_ITS2.sh
+```
 
 now do the same for directory /subset-fastq_NO/QCFastqs/nofilter
 
 #### Count expression - all reads mapped to top-4-clade_ITS2
 
+```
 nano countexpression_top-4-clade_ITS2.sh 
+```
 
 ```
 #!/bin/bash -l
@@ -887,7 +955,9 @@ nano countexpression_top-4-clade_ITS2.sh
 /cm/shared/courses/dbarshis/barshislab/CCourtney/PoloRNASeq/scripts/countxpression_SB_advbioinf.py /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NC/QCFastqs/nofilter/*_nof_top-4-clade_ITS2.sam
 ```
 
+```
 sbatch countexpression_top-4-clade_ITS2.sh
+```
 
 then do the same for subset-fastq_NC
 
@@ -895,20 +965,24 @@ then do the same for subset-fastq_NC
 ## Parse expression to big table 
 - for 4 dominant ITS2 clade contigs
 - copy all *_nof_top-4-clade_ITS2_counts.txt files (all files NO and NC) to one folder
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/merged_NO-NC_counts/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/merged_NO-NC_counts/
 
 ##### make genelist.txt
-format should be:
+format should be as follows:
 
-GeneName [header]
-contig1name
-contig2name
-contig3name
-contig4name
+| GeneName |
+| --- |
+| contig1name |
+| contig2name |
+| contig3name |
+| contig4name |
 
 secure copy from local machine
 
+```
 nano ParseExpression.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -921,32 +995,36 @@ nano ParseExpression.sh
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/ParseExpression2BigTable_advbioinf.py genelist.txt merged_top-4-ITS2-clades_counts.txt nomatch **_nof_top-4-clade_ITS2_counts.txt
 ```
 
+```
 sbatch ParseExpression.sh
+```
 
 #### Output 
 merged_top-4-ITS2-clades_counts.txt
 
-GeneName    Sum_Unique total reads of all samples (n=40 samples)
-GS_A4.1     30204
-GS_F4.2a    805
-GS_I1       408932
-LJ_C161     4557
+| GeneName | Sum_Unique total reads of all samples (n=40) |
+| --- | --- |
+| GS_A4.1 | 30204 |
+| GS_F4.2a | 805 |
+| GS_I1 | 408932 |
+| LJ_C161 | 4557 |
 
-Need to check clade I sequences
-- sequence unique to clade I or other ITS2 clades ?
+Need to check clade I sequences:
+- sequence unique to clade I or other ITS2 clades?
 - check alignment, BLAST
 
-All samples matched to at least one clade contig.
+**All samples matched to at least one clade contig.**
 
 --------------------------------------------------------------------------------------------
 ## samtools 
 - view alignment
 - copy all *_nof_top-4-clade_ITS2.sam files (all files NO and NC) to one folder
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/merged_NO-NC_sam/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/merged_NO-NC_sam/
 
-http://biobits.org/samtools_primer.html#Tutorial
-https://github.com/davetang/learning_bam_file
-https://davetang.org/wiki/tiki-index.php?page=SAMTools
+[http://biobits.org/samtools_primer.html#Tutorial](http://biobits.org/samtools_primer.html#Tutorial)
+[https://github.com/davetang/learning_bam_file](https://github.com/davetang/learning_bam_file)
+[https://davetang.org/wiki/tiki-index.php?page=SAMTools](https://davetang.org/wiki/tiki-index.php?page=SAMTools)
+
 - SAM files consist of two types of lines: headers and alignments. 
 - Headers begin with @, and provide meta-data regarding the entire alignment file. 
 - Alignments begin with any character except @, and describe a single alignment of a sequence read against the reference genome.
@@ -967,9 +1045,10 @@ samtools   # see which version is running
 ```
 samtools view -b -S -o alignments/sim_reads_aligned.bam alignments/sim_reads_aligned.sam
 ```
--b: indicates that the output is BAM.
--S: indicates that the input is SAM.
--o: specifies the name of the output file
+
+> -b: indicates that the output is BAM.
+> -S: indicates that the input is SAM.
+> -o: specifies the name of the output file
 
 BAM files are stored in a compressed, binary format, and cannot be viewed directly 
 - .bams are binary versions of .sams so are just more memory efficient 
@@ -983,9 +1062,12 @@ samtools view alignments/sim_reads_aligned.bam | more
 ```
 will display all your reads in the unix more paginated style.
 
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/merged_NO-NC_sam/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/merged_NO-NC_sam/
 
+```
 nano sam_view-sort-index.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -1003,7 +1085,10 @@ for i in *unsorted.bam; do samtools sort -O bam -T ${i%_unsorted.bam} $i > ${i%_
 samtools index ${i%_sorted.bam}.bam
 done
 ```
+
+```
 sbatch sam_view-sort-index.sh
+```
 
 #### Dan's script - for individual sample
 ```
@@ -1025,9 +1110,11 @@ samtools index djbNO_289_La_Pa_yr2_R1_nof_top-4-clade_ITS2_sorted.bam
 #### Sort and index bam files
 - There are two options for sorting BAM files: by read name (-n), and by genomic location (default). 
 - As our goal is to call genomic variants, and this requires that we “pile-up” all matching reads within a specific genomic location, we sort by location
+
+```
 samtools sort
 samtools index 
-
+```
 
 #### Visualizing Reads
 For the final step, we will use the SAMtools tview command to view our simulated reads and visually compare them to the reference genome. 
@@ -1044,7 +1131,7 @@ samtools view -b -h aligned_reads.sam > aligned_reads.bam
 ```
 
 #### Use bioSyntax to prettify your output.
-*** in VS code ***
+**in VS code**
 ```
 samtools view *unsorted.bam.bam | sam-less
 ```
@@ -1061,7 +1148,8 @@ samtools view *unsorted.bam.bam | sam-less
 - clade I is matching at very end and very beginning
 - perfect match with clade A
 
-## Conclusion:  our samples have majority ITS2 clade A sequences
+## Conclusion: 
+**Our samples have majority ITS2 clade A sequences**
 - now we will test multiple clade A transcriptomes
 
 --------------------------------------------------------------------------------------------
@@ -1070,13 +1158,16 @@ samtools view *unsorted.bam.bam | sam-less
 - test Raul Gonzalez-Pech et al. 2019 Symbiodinium tridacnidorum
 - S.tridacnidorum_CCMP2592.CDS.fna 
 - ITS2 type A3
-https://www.biorxiv.org/content/10.1101/783902v1
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_tridacnidorum_CCMP2592_CDS/
+[https://www.biorxiv.org/content/10.1101/783902v1](https://www.biorxiv.org/content/10.1101/783902v1)
+
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_tridacnidorum_CCMP2592_CDS/
 
 #### check quality of assemblies
 S_tridacnidorum_CCMP2592_CDS
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fna
+```
+
 ```
 The total number of sequences is 45474
 The average sequence length is 2033
@@ -1089,7 +1180,7 @@ contigs < 150bp = 0
 contigs >= 500bp = 40321
 contigs >= 1000bp = 30253
 contigs >= 2000bp = 15298
-
+```
 
 #### make file mappable
 need bowtie build module - creates 6 files for mapping
@@ -1104,7 +1195,10 @@ bowtie2-build /home/vradice/P_ast/refassembly/S_tridacnidorum_CCMP2592_CDS/S.tri
 
 #### mapping to S_tridacnidorum_CCMP2592_CDS reference
 
+```
 nano mapreads_S_tridacnidorum_CCMP2592_CDS.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -1122,8 +1216,9 @@ for i in *_clippedtrimmed_nofilter.fastq ; do bowtie2 --rg-id ${i%_clippedtrimme
 > ${i%_clippedtrimmed_nofilter.fastq}_nof_S_tridacnidorum_CCMP2592.sam -k 5\n; done
 ```
 
+```
 sbatch mapreads_S_tridacnidorum_CCMP2592_CDS.sh
-
+```
 
 ```
 head bowtie2_S_tridacnidorum_CCMP2592_CDS.txt
@@ -1132,7 +1227,10 @@ cat bowtie2_S_tridacnidorum_CCMP2592_CDS.txt
 
 ## Count expression 
 
+```
 nano countexpression_S_tridacnidorum_CCMP2592.sh 
+```
+
 ```
 #!/bin/bash -l
 
@@ -1144,21 +1242,26 @@ nano countexpression_S_tridacnidorum_CCMP2592.sh
 
 /cm/shared/courses/dbarshis/barshislab/CCourtney/PoloRNASeq/scripts/countxpression_SB_advbioinf.py /home/vradice/P_ast/clippedtrimmed_nofilter/*_nof_S_tridacnidorum_CCMP2592.sam
 ```
+
+```
 sbatch countexpression_S_tridacnidorum_CCMP2592.sh
+```
 
 --------------------------------------------------------------------------------------------
 ## testing (former ITS2 clade A) transcriptomes
 Mapping against Symbiodinium microadriaticum
 - Gonzalez-Pech et al. 2019
 - S.microadriaticum_CassKB8.CDS.fna
-https://www.biorxiv.org/content/10.1101/800482v1.full
-/home/vradice/P_ast/refassembly/S_microadriaticum_CassKB8/
+[https://www.biorxiv.org/content/10.1101/800482v1.full](https://www.biorxiv.org/content/10.1101/800482v1.full)
+> /home/vradice/P_ast/refassembly/S_microadriaticum_CassKB8/
 
 #### check quality of assemblies
 # S_microadriaticum_CassKB8
 
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fna
+```
+
 ```
 The total number of sequences is 42652
 The average sequence length is 1836
@@ -1171,6 +1274,7 @@ contigs < 150bp = 4
 contigs >= 500bp = 36346
 contigs >= 1000bp = 25680
 contigs >= 2000bp = 12612
+```
 
 #### make file mappable
 need bowtie build module - creates 6 files for mapping
@@ -1184,8 +1288,10 @@ bowtie2-build /home/vradice/P_ast/refassembly/S_microadriaticum_CassKB8/S.microa
 ```
 
 #### mapping to S_microadriaticum_CassKB8 reference
-
+```
 nano mapreads_S_microadriaticum_CassKB8.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -1206,8 +1312,10 @@ for i in *_clippedtrimmed_nofilter.fastq ; do bowtie2 --rg-id ${i%_clippedtrimme
 sbatch mapreads_S_microadriaticum_CassKB8.sh
 
 #### Count expression 
-
+```
 nano countexpression_S_microadriaticum_CassKB8.sh 
+```
+
 ```
 #!/bin/bash -l
 
@@ -1220,7 +1328,9 @@ nano countexpression_S_microadriaticum_CassKB8.sh
 /cm/shared/courses/dbarshis/barshislab/CCourtney/PoloRNASeq/scripts/countxpression_SB_advbioinf.py /home/vradice/P_ast/clippedtrimmed_nofilter/*_nof_S_microadriaticum_CassKB8.sam
 ```
 
+```
 sbatch countexpression_S_microadriaticum_CassKB8.sh
+```
 
 --------------------------------------------------------------------------------------------
 ## testing (former ITS2 clade A) transcriptomes
@@ -1229,13 +1339,15 @@ sbatch countexpression_S_microadriaticum_CassKB8.sh
 - Chen et al. 2019 "Revised genome sequences and annotations of six Symbiodiniaceae taxa"
 - reannotated the genome - Symbiodinium microadriaticum
 - Symbiodinium_microadriaticum.CDS.fna
-https://espace.library.uq.edu.au/view/UQ:8279c9a
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CCMP2467/
+[https://espace.library.uq.edu.au/view/UQ:8279c9a](https://espace.library.uq.edu.au/view/UQ:8279c9a)
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CCMP2467/
 
 #### check quality of assemblies
 S_microadriaticum_CCMP2467
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fna
+```
+
 ```
 The total number of sequences is 29728
 The average sequence length is 2217
@@ -1248,6 +1360,7 @@ contigs < 150bp = 1
 contigs >= 500bp = 26755
 contigs >= 1000bp = 20390
 contigs >= 2000bp = 11116
+```
 
 #### make file mappable
 need bowtie build module - creates 6 files for mapping
@@ -1261,8 +1374,10 @@ bowtie2-build /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoi
 ```
 
 #### mapping to S_microadriaticum_CCMP2467 reference
-
+```
 nano mapreads_S_microadriaticum_CCMP2467.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -1280,11 +1395,15 @@ for i in *_clippedtrimmed_nofilter.fastq ; do bowtie2 --rg-id ${i%_clippedtrimme
 > ${i%_clippedtrimmed_nofilter.fastq}_nof_S_microadriaticum_CCMP2467.sam -k 5\n; done
 ```
 
+```
 sbatch mapreads_S_microadriaticum_CCMP2467.sh
+```
 
 #### Count expression 
+```
+nano countexpression_S_microadriaticum_CCMP2467.sh
+```
 
-nano countexpression_S_microadriaticum_CCMP2467.sh 
 ```
 #!/bin/bash -l
 
@@ -1297,7 +1416,9 @@ nano countexpression_S_microadriaticum_CCMP2467.sh
 /cm/shared/courses/dbarshis/barshislab/CCourtney/PoloRNASeq/scripts/countxpression_SB_advbioinf.py /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/*_nof_S_microadriaticum_CCMP2467.sam
 ```
 
+```
 sbatch countexpression_S_microadriaticum_CCMP2467.sh
+```
 
 --------------------------------------------------------------------------------------------
 ## testing (former ITS2 clade A) transcriptomes
@@ -1305,13 +1426,15 @@ sbatch countexpression_S_microadriaticum_CCMP2467.sh
 - Shoguchi 2018 genome 
 - re-annotated by Chen et al. 2019
 - Symbiodinium_tridacnidorum.CDS.fna
-https://espace.library.uq.edu.au/view/UQ:8279c9a
-/home/vradice/P_ast/refassembly/S_tridacnidorum_Chen-Shoguchi
+[https://espace.library.uq.edu.au/view/UQ:8279c9a](https://espace.library.uq.edu.au/view/UQ:8279c9a)
+> /home/vradice/P_ast/refassembly/S_tridacnidorum_Chen-Shoguchi
 
 #### check quality of assemblies
 S_tridacnidorum_Chen-Shoguchi
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fna
+```
+
 ```
 The total number of sequences is 25808
 The average sequence length is 1424
@@ -1324,6 +1447,7 @@ contigs < 150bp = 0
 contigs >= 500bp = 20976
 contigs >= 1000bp = 13739
 contigs >= 2000bp = 4990
+```
 
 #### make file mappable
 need bowtie build module - creates 6 files for mapping
@@ -1335,8 +1459,10 @@ bowtie2-build /home/vradice/P_ast/refassembly/S_tridacnidorum_Chen-Shoguchi/Symb
 ```
 
 #### mapping to S_tridacnidorum_Chen-Shoguchi reference
-
+```
 nano mapreads_S_tridacnidorum_Chen-Shoguchi.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -1354,11 +1480,15 @@ for i in *_clippedtrimmed_nofilter.fastq ; do bowtie2 --rg-id ${i%_clippedtrimme
 > ${i%_clippedtrimmed_nofilter.fastq}_nof_S_tridacnidorum_Chen-Shoguchi.sam -k 5\n; done
 ```
 
+```
 sbatch mapreads_S_tridacnidorum_Chen-Shoguchi.sh
+```
 
 #### Count expression 
+```
+nano countexpression_S_tridacnidorum_Chen-Shoguchi.sh
+```
 
-nano countexpression_S_tridacnidorum_Chen-Shoguchi.sh 
 ```
 #!/bin/bash -l
 
@@ -1371,19 +1501,23 @@ nano countexpression_S_tridacnidorum_Chen-Shoguchi.sh
 /cm/shared/courses/dbarshis/barshislab/CCourtney/PoloRNASeq/scripts/countxpression_SB_advbioinf.py /home/vradice/P_ast/clippedtrimmed_nofilter/*_nof_S_tridacnidorum_Chen-Shoguchi.sam
 ```
 
+```
 sbatch countexpression_S_tridacnidorum_Chen-Shoguchi.sh
+```
 
 --------------------------------------------------------------------------------------------
 ## testing (former ITS2 clade A) transcriptomes
 - mapping against Symbiodinium microadriaticum 04-503SCI.03
 - S.microadriaticum_04-503SCI.03.CDS.fna
-https://www.biorxiv.org/content/10.1101/800482v1.full
-/home/vradice/P_ast/refassembly/S_microadriaticum_04-503SCI.03/
+[https://www.biorxiv.org/content/10.1101/800482v1.full](https://www.biorxiv.org/content/10.1101/800482v1.full)
+> /home/vradice/P_ast/refassembly/S_microadriaticum_04-503SCI.03/
 
 #### check quality of assemblies
 S_microadriaticum_04-503SCI.03
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fna
+```
+
 ```
 The total number of sequences is 38462
 The average sequence length is 1814
@@ -1396,6 +1530,7 @@ contigs < 150bp = 9
 contigs >= 500bp = 32203
 contigs >= 1000bp = 22567
 contigs >= 2000bp = 11237
+```
 
 #### make file mappable
 need bowtie build module - creates 6 files for mapping
@@ -1407,8 +1542,10 @@ bowtie2-build /home/vradice/P_ast/refassembly/S_microadriaticum_04-503SCI.03/S.m
 ```
 
 #### mapping to S_microadriaticum_04-503SCI.03 reference
-
+```
 nano mapreads_S_microadriaticum_04-503SCI.03.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -1426,11 +1563,15 @@ for i in *_clippedtrimmed_nofilter.fastq ; do bowtie2 --rg-id ${i%_clippedtrimme
 > ${i%_clippedtrimmed_nofilter.fastq}_nof_S_microadriaticum_04-503SCI.03.sam -k 5\n; done
 ```
 
+```
 sbatch mapreads_S_microadriaticum_04-503SCI.03.sh
+```
 
 #### Count expression 
+```
+nano countexpression_S_microadriaticum_04-503SCI.03.sh
+```
 
-nano countexpression_S_microadriaticum_04-503SCI.03.sh 
 ```
 #!/bin/bash -l
 
@@ -1443,31 +1584,36 @@ nano countexpression_S_microadriaticum_04-503SCI.03.sh
 /cm/shared/courses/dbarshis/barshislab/CCourtney/PoloRNASeq/scripts/countxpression_SB_advbioinf.py /home/vradice/P_ast/clippedtrimmed_nofilter/*_nof_S_microadriaticum_04-503SCI.03.sam
 ```
 
+```
 sbatch countexpression_S_microadriaticum_04-503SCI.03.sh
+```
 
 --------------------------------------------------------------------------------------------
 ## compare 4 clade A transcriptomes
 
 #### check number of reads aligning exactly 1 time
 
-	                            Isolated from	                                AVG_Proportion_Single_aligned	AVG_NumSingleAligned
-S_microadriaticum_CassKB8	    Cassiopea (Hawai'i)	                            0.0112	                        158675
-S_microadriaticum_04-503SCI.03	Orbicella faveolata (Florida)	                0.0107	                        152557
-S_microadriaticum_CCMP2467	    Culture	                                        0.0078	                        108401
-S_tridacnidorum_CCMP2592	    Heliofungia actiniformis (GBR)	                0.0048	                        66033
-S_tridacnidorum_Chen-Shoguchi	Tridacna crocea (Okinawa, 1980, then cultured)	0.0026	                        36603
+| Name | Isolated from | AVG_Proportion_Single_aligned | AVG_NumSingleAligned |
+|-----------|-----------|-----------|-----------|
+| S_microadriaticum_CassKB8 | Cassiopea (Hawai'i) | 0.0112 | 158675 |
+| S_microadriaticum_04-503SCI.03 | Orbicella faveolata (Florida) | 0.0107 | 152557 |
+| S_microadriaticum_CCMP2467 | Culture | 0.0078 | 108401 |
+| S_tridacnidorum_CCMP2592 | Heliofungia actiniformis (Great Barrier Reef) | 0.0048 | 66033 |
+| S_tridacnidorum_Chen-Shoguchi | Tridacna crocea (Okinawa, 1980; then cultured) | 0.0026 | 36603 |
 
 
-*** Decided to use S_microadriaticum_CassKB8 transcriptome for symbiont reference. ***
+**Decided to use S_microadriaticum_CassKB8 transcriptome for symbiont reference.**
 
 --------------------------------------------------------------------------------------------
 ## Add suffix to fasta reference sequence names
 addsuffixtofastaseqnames.py
-/cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/
+> /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/
 
 #### add suffix Past to host reference
+```
+nano addsuffixtofastaseqnames.sh
+```
 
-nano addsuffixtofastaseqnames.sh 
 ```
 #!/bin/bash -l
 
@@ -1480,18 +1626,24 @@ nano addsuffixtofastaseqnames.sh
 /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_Kenkel/addsuffixtofastaseqnames.py Past /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/Past_host_All_iso.fasta
 ```
 
+```
 sbatch addsuffixtofastaseqnames.sh
+```
 
 output:
-/cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/Past_host_All_iso_suffixed.fasta
+> /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/Past_host_All_iso_suffixed.fasta
 
 #### add suffix Sym to Symbiodinium reference
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/
+/> cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/
+
 ```
 mv S.microadriaticum_CassKB8.CDS.fna SymTranscriptome.fasta
 ```
 
+```
 nano addsuffixtofastaseqnames.sh 
+```
+
 ```
 #!/bin/bash -l
 
@@ -1504,7 +1656,9 @@ nano addsuffixtofastaseqnames.sh
 /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/addsuffixtofastaseqnames.py Sym SymTranscriptome.fasta
 ```
 
+```
 sbatch addsuffixtofastaseqnames.sh
+```
 
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py SymTranscriptome_suffixed.fasta
@@ -1517,7 +1671,7 @@ mv SymTranscriptome_suffixed.fasta 42652_SymTranscriptome_suffixed.fasta
 ```
 
 ##### different file size of KenkelTranscriptome_suffixed versus original KenkelTranscriptome
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_Kenkel
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_Kenkel
 ```
 ls -alh
 ```
@@ -1545,20 +1699,23 @@ all good
 --------------------------------------------------------------------------------------------
 ## Hybrid reference transcriptome
 Concatenate symbiont transcriptome with host transcriptome to make mapping file
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/hybridref/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/hybridref/
 
 ```
 cat /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/Past_host_All_iso_suffixed.fasta /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/SymTranscriptome_suffixed.fasta > hybridreference.fasta
 ```
 
+```
 ls -alh
+```
+
 ```
 -rwxrwxrwx  1 vradice users 227M Apr 17 09:30 hybridreference.fasta
 ```
 
 --------------------------------------------------------------------------------------------
 ## Map all the P_ast samples to concatenated (host plus symbiont) hybridreference transcriptome
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/
 
 #### make file mappable
 need bowtie build module - creates 6 files for mapping
@@ -1570,15 +1727,17 @@ bowtie2-build /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoi
 ```
 
 Porites astreoides: NC_ and NO_ samples
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NC/QCFastqs/nofilter
-*_Pa_yr2_R1_clippedtrimmed_nofilter.fastq
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NC/QCFastqs/nofilter
+> *_Pa_yr2_R1_clippedtrimmed_nofilter.fastq
 
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter
-*_Pa_yr2_R1_clippedtrimmed_nofilter.fastq
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter
+> *_Pa_yr2_R1_clippedtrimmed_nofilter.fastq
 
 For both NO and NC files:
-
+```
 nano copy-fastq.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -1591,12 +1750,17 @@ nano copy-fastq.sh
 cp /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NC/QCFastqs/nofilter/*_Pa_yr2_R1_clippedtrimmed_nofilter.fastq /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/
 ```
 
+```
 sbatch copy-fastq.sh
+```
 
 #### mapping to hybridreference
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref
 
+```
 nano mapreads_hybridreference.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -1614,16 +1778,23 @@ for i in *_clippedtrimmed_nofilter.fastq ; do bowtie2 --rg-id ${i%_clippedtrimme
 > ${i%_clippedtrimmed_nofilter.fastq}_nof_hybridreference.sam -k 5\n; done
 ```
 
+```
 sbatch mapreads_hybridreference.sh
+```
 
 --------------------------------------------------------------------------------------------
 ## Final Hybrid reference transcriptome
 - use past.fasta (full) host reference
 
 #### Add suffix to host reference
+```
 addsuffixtofastaseqnames.py Past past.fasta
+```
 
-nano addsuffixtofastaseqnames.sh 
+```
+nano addsuffixtofastaseqnames.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -1636,7 +1807,9 @@ nano addsuffixtofastaseqnames.sh
 /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_Kenkel/addsuffixtofastaseqnames.py Past /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014/past.fasta
 ```
 
+```
 sbatch addsuffixtofastaseqnames.sh
+```
 
 The total number of sequences is 30740
 ```
@@ -1650,20 +1823,23 @@ mv past_suffixed.fasta 30740_past_suffixed.fasta
 
 --------------------------------------------------------------------------------------------
 ## Concatenate host reference (Past_full) and symbiont reference to make mapping file
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/hybridref
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/hybridref
 
 ```
 cat /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014/past_suffixed.fasta /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/SymTranscriptome_suffixed.fasta > hybridreference.fasta
 ```
 
+```
 ls -alh
+```
+
 ```
 -rwxrwxrwx  1 vradice users 95M Apr 22 15:10 hybridreference.fasta
 ```
 
 --------------------------------------------------------------------------------------------
 ## Map all the P_ast samples to concatenated (host plus symbiont) hybridreference transcriptome
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref
 
 #### make file mappable
 need bowtie build module - creates 6 files for mapping
@@ -1677,8 +1853,10 @@ bowtie2-build /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoi
 ```
 
 #### mapping to hybridreference
-
+```
 nano mapreads_hybridreference.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -1696,7 +1874,9 @@ for i in *_clippedtrimmed_nofilter.fastq ; do bowtie2 --rg-id ${i%_clippedtrimme
 > ${i%_clippedtrimmed_nofilter.fastq}_nof_hybridref.sam -k 5\n; done
 ```
 
+```
 sbatch mapreads_hybridreference.sh
+```
 
 ```
 head -n 30 bowtie2_hybridreference.txt
@@ -1708,7 +1888,7 @@ head -n 30 bowtie2_hybridreference.txt
 - Sandrine (SB) re-wrote the script to be able to merge counts into isogroups at the same time as counting if you supply a seq2iso table
 
 #### Use associated seq2iso table (host)
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014/pastreoides_may2014
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014/pastreoides_may2014
 
 show count of how many lines in table
 ```
@@ -1718,26 +1898,26 @@ grep "" -c past_seq2iso.tab
 30740 lines in past_seq2iso.tab
 
 #### add _Past suffix to contig names (column 1) and gene names (column 2) and change seq2iso table to tab delimited
+
 Use regular expressions:
-
-Find:
-(\w+) (\w+)
-
-Replace:
-Visual Studio Code uses .net syntax
-$1_Past\t$2_Past
-
-Unix syntax equivalent:  
-\1_Past\t\2_Past
+> Find:
+> (\w+) (\w+)
+> 
+> Replace:
+> Visual Studio Code uses .net syntax
+> $1_Past\t$2_Past
+> 
+> Unix syntax equivalent:  
+> \1_Past\t\2_Past
 
 New file:  past_seq2iso_suffixed.tab
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014/
 
 #### create symbiont symbiont_seq2iso table
 - symbiont reference transcriptome:  S.microadriaticum_CassKB8.CDS.fna
 - genes only
 - make table with same genename_sym in column 1, and column 2 (no column headers)
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/
 
 ```
 grep ">" 42652_SymTranscriptome_suffixed.fasta > sym_seq2iso.tab
@@ -1758,13 +1938,13 @@ The sym_seq2iso.tab has one column with suffixed gene names
 Write Python script to find and replace
 - re.sub(regex, replacement, subject)
 
-Find: 
-(>)(\w+.\w+.\w+)
-
-Replace: 
-$2\t$2
-
-equivalent  \2\t\2
+> Find: 
+> (>)(\w+.\w+.\w+)
+> 
+> Replace: 
+> $2\t$2
+> 
+> equivalent:  \2\t\2
 
 ```
 print(re.sub(r'(>)(\w+.\w+.\w+)', r'\2\t\2', line))
@@ -1772,14 +1952,15 @@ print(re.sub(r'(>)(\w+.\w+.\w+)', r'\2\t\2', line))
 for loop
 
 New file:  sym_seq2iso_suffixed.txt
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/
+
 ```
 mv sym_seq2iso_suffixed.txt sym_seq2iso_suffixed.tab
 ```
 
 --------------------------------------------------------------------------------------------
 ## concatenate host and symbiont seq2 iso table
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref
 
 ```
 cat /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014/past_seq2iso_suffixed.tab /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/sym_seq2iso_suffixed.tab > hybrid_seq2iso.tab
@@ -1788,9 +1969,12 @@ cat /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan
 --------------------------------------------------------------------------------------------
 ## Count expression 
 Generate counts file for all samples
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/
 
-nano countexpression_hybridref.sh 
+```
+nano countexpression_hybridref.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -1803,7 +1987,9 @@ nano countexpression_hybridref.sh
 /cm/shared/courses/dbarshis/barshislab/CCourtney/PoloRNASeq/scripts/countxpression_SB_advbioinf.py /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/*_nof_hybridref.sam -g /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/hybrid_seq2iso.tab
 ```
 
+```
 sbatch countexpression_hybridref.sh
+```
 
 ```
 grep "Sym" -c NO_289_La_Pa_yr2_R1_nof_hybridref_counts.txt
@@ -1837,6 +2023,7 @@ wc -l past_seq2iso_suffixed.tab
 30740 lines
 multiple contigs per gene
 
+
 /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/
 ```
 wc -l sym_seq2iso_suffixed.tab
@@ -1869,17 +2056,21 @@ hybrid_seq2iso.tab
 #### make genelist.txt
 Format should be:
 
-GeneName [header]
-gene1name
-gene2name
-gene3name
-gene4name
+| GeneName |
+| --- |
+| gene1name |
+| gene2name |
+| gene3name |
+| gene4name |
 
 secure copy from local machine
 
-/cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/
+> /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/
 
+```
 nano ParseExpression.sh
+```
+
 ```
 #!/bin/bash -l
 
@@ -1892,7 +2083,9 @@ nano ParseExpression.sh
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/ParseExpression2BigTable_advbioinf.py genelist.txt merged_hybridref_counts.txt nomatch *_nof_hybridref_counts.txt
 ```
 
+```
 sbatch ParseExpression.sh
+```
 
 #### Output 
 merged_hybridref_counts.txt
