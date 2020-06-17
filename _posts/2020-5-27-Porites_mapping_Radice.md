@@ -44,10 +44,11 @@ renamer_advbioinf.py
 renamingtable_yr2.txt
 
 Example:  
-| OldName	| NewName |
-| --- | --- |
-| APDB20_A_NO_261_C_Pa_yr2_A1_S1_L001_R1_001.fastq | NO_261_C_Pa_yr2_R1.fastq |
-| APDB20_B_NO_264_C_Pa_yr2_B1_S2_L001_R1_001.fastq | NO_264_C_Pa_yr2_R1.fastq |
+
+OldName	| NewName |
+--- | --- |
+APDB20_A_NO_261_C_Pa_yr2_A1_S1_L001_R1_001.fastq | NO_261_C_Pa_yr2_R1.fastq
+APDB20_B_NO_264_C_Pa_yr2_B1_S2_L001_R1_001.fastq | NO_264_C_Pa_yr2_R1.fastq
 
 ``` sh
 nano renamer_yr2.sh
@@ -67,7 +68,7 @@ nano renamer_yr2.sh
 ```
 
 ----------------------------------------------------------------------------------------------
-## make adapter list 
+## Make adapter list 
 Be aware of formatting (e.g., extra spaces, extra lines) (in Excel)
 Ideally, list is made as .txt file
 
@@ -81,7 +82,7 @@ If adapter sequence is short, then need to find the long version of each adapter
 Secure copy adapter list file from local machine to folder in the cluster.
 
 ----------------------------------------------------------------------------------------------
-## adapter trimming-clipping-quality filtering for all files 
+## Adapter trimming-clipping-quality filtering for all files 
 can do this in separate batches
 
 > /cm/shared/courses/dbarshis/15AdvBioinf/scripts/
@@ -255,7 +256,7 @@ mkdir P_ast_reefgenomics
 secure copy transcriptomes to directories
 
 --------------------------------------------------------------------------------------------
-## check quality of assemblies
+## Check quality of assemblies
 avg_cov_len_fasta_advbioinf.py
 
 #### P_ast_Kenkel
@@ -319,7 +320,7 @@ contigs >= 2000bp = 48
 ```
 
 --------------------------------------------------------------------------------------------
-## make transcriptomes mappable
+## Make transcriptomes mappable
 - need bowtie build module
 - creates 6 files for mapping
 
@@ -341,7 +342,7 @@ bowtie2-build *.fas past_k
 - test filtered versus unfiltered (clipped and trimmed) fastq files
 - test Kenkel transcriptome versus reefgenomics
 
-#### test reefgenomics P. astreoides transcriptome
+#### Test reefgenomics P. astreoides transcriptome
 mapping to reefgenomics (rg) reference
 ```
 nano mapreads_past_rg.sh
@@ -423,7 +424,7 @@ cat bowtie2_past_rg.txt
 8.58% overall alignment rate
 ```
 
-#### test Kenkel P. astreoides transcriptome
+#### Test Kenkel P. astreoides transcriptome
 - initially tried the partial past_CDS file
 - mapping to Kenkel (k) reference
 
@@ -511,22 +512,22 @@ cat bowtie2_past_k.txt
 ## Test to compare different P. astreoides references
 Alignment is very low for /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/Past_host_All_iso_suffixed.fasta
 
-##### test past_CDS_Kenkel_2014
+##### Test past_CDS_Kenkel_2014
 - from pastreoides_may2014 folder
 - original past_CDS.fas renamed KenkelTranscriptome.fasta
 /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_Kenkel
 
-##### test past_full_Kenkel_2014
+##### Test past_full_Kenkel_2014
 - from pastreoides_may2014 folder
 - past.fasta
 /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014
 
-##### test Past_host_All_iso_2020
+##### Test Past_host_All_iso_2020
 - most recent Kenkel reference transcriptome (personally shared)
 - Past_host_All_iso.fasta
 /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/
 
-#### check quality of assemblies
+#### Check quality of assemblies
 
 Test past_CDS_Kenkel_2014
 ```
@@ -585,7 +586,7 @@ contigs >= 1000bp = 51002
 contigs >= 2000bp = 27346
 ```
 
-#### make file mappable
+#### Make file mappable
 need bowtie build module - creates 6 files for mapping
 ```
 module load bowtie2/2.2.4
@@ -602,10 +603,12 @@ bowtie2-build /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astre
 
 #### Compare 3 P. astreoides assemblies with subset of samples
 
-##### test past_CDS_Kenkel_2014
+##### Test past_CDS_Kenkel_2014
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_Kenkel/ 
 
+```
 nano mapreads_past.sh
+```
 
 ```
 #!/bin/bash -l
@@ -636,7 +639,7 @@ sbatch mapreads_past.sh
 cat bowtie2_test_past_CDS_Kenkel_2014.txt 
 ```
 
-##### test past_full_Kenkel_2014
+##### Test past_full_Kenkel_2014
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014
 
 ```
@@ -672,7 +675,7 @@ sbatch mapreads_past.sh
 cat bowtie2_test_past_full_Kenkel_2014.txt 
 ```
 
-##### test Past_host_All_iso_2020
+##### Test Past_host_All_iso_2020
 > /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/
 
 ```
@@ -711,14 +714,17 @@ cat bowtie2_test_Past_host_All_iso_2020.txt
 Samples had greatest alignment with 2014 full Past assembly (past.fasta), so using this for analysis.
 
 --------------------------------------------------------------------------------------------
-## try to identify symbiont type of P. astreoides
-- test ITS2 fasta files (Arif et al. 2014)
+## Identify symbiont type of P. astreoides
+- based on internal transcribed spacer 2 (ITS2) region, a multicopy genetic marker commonly used to analyse Symbiodinium diversity
+- test ITS2 fasta files 
+- Arif et al. 2014
+- [https://onlinelibrary.wiley.com/doi/full/10.1111/mec.12869](https://onlinelibrary.wiley.com/doi/full/10.1111/mec.12869)
 - ArifITS2_mec12869-sup-0001-FileS1.txt
 
 make separate folders for different references in refassembly folder
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/Arif_ITS2
 
-#### check quality of assemblies
+#### Check quality of assemblies
 Arif_ITS2
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.txt
@@ -739,12 +745,12 @@ contigs >= 2000bp = 0
 ```
 
 --------------------------------------------------------------------------------------------
-## map all P. astreoides sequence files to Arif ITS2 (all clades) reference
+## Map all P. astreoides sequence files to Arif ITS2 (all clades) reference
 - ran separate jobs from respective directories (subset-fastq_NC/QCFastqs/nofilter and subset-fastq_NO/QCFastqs/nofilter)
 - set up parallel array alignment jobs using (Misha Matz's) bowtie parameters 
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NC/QCFastqs/nofilter
 
-##### make file mappable
+##### Make file mappable
 need bowtie build module - creates 6 files for mapping
 ```
 module load bowtie2/2.2.4
@@ -755,7 +761,7 @@ bowtie for Arif ITS2 clade mapping
 bowtie2-build ArifITS2_mec12869-sup-0001-FileS1.txt Arif_ITS2
 ```
 
-##### mapping to Arif_ITS2 reference
+##### Mapping to Arif_ITS2 reference
 
 ```
 nano mapreads_Arif_ITS2.sh
@@ -813,7 +819,11 @@ then do the same for subset-fastq_NC
 ## Merge all *nof_Arif_ITS2_counts.txt files (NC and NO) into one big table 
 - first need to add column to each .txt file with unique sample id
 - so we can later identify which sample has which ITS2 sequences
-- for f in file1 file2 file3; do sed -i "s/$/\t$f/" $f; done
+
+Using regular expressions:
+
+for f in file1 file2 file3; do sed -i "s/$/\t$f/" $f; done
+
 - For each file in the list, this will use sed to append to the end of each line a tab and the filename
 - Using the -i flag with sed to perform a replacement in-place, overwriting the file
 - Perform a substitution with s/PATTERN/REPLACEMENT/. 
@@ -828,7 +838,7 @@ for f in *_R1_nof_Arif_ITS2_counts.txt; do sed -i "s/$/\t$f/" $f; done
 ```
 
 --------------------------------------------------------------------------------------------
-## concatenate all NC and NO Arif_ITS2_counts.txt files into one merged file
+## Concatenate all NC and NO Arif_ITS2_counts.txt files into one merged file
 NC folder
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NC/QCFastqs/nofilter/
 
@@ -890,13 +900,13 @@ For n=40 Porites astreoides samples with matched reads:
 - ITS2 clade B matched 7%
 
 --------------------------------------------------------------------------------------------
-## map 4 dominant ITS2 clade (Arif) contigs (contig with highest number of reads for one of the 4 dominant clades)
+## Map 4 dominant ITS2 clade (Arif) contigs (contig with highest number of reads for one of the 4 dominant clades)
 - took ITS2 contigs across clade A, F, C, I
 - ran separate jobs from respective directories (subset-fastq_NC/QCFastqs/nofilter and subset-fastq_NO/QCFastqs/nofilter)
 - set up parallel array alignment jobs using (Misha Matz's) bowtie parameters 
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter
 
-##### make file mappable
+##### Make file mappable
 need bowtie build module - creates 6 files for mapping
 
 ```
@@ -908,7 +918,7 @@ bowtie mapping
 bowtie2-build Past_mapped_Arif-ITS2_4-dominant-clades.txt top-4-clade_ITS2
 ```
 
-#### mapping top-4-clade_ITS2 contigs
+#### Mapping top-4-clade_ITS2 contigs
 
 ```
 nano mapreads_top-4-clade_ITS2.sh
@@ -967,15 +977,15 @@ then do the same for subset-fastq_NC
 - copy all *_nof_top-4-clade_ITS2_counts.txt files (all files NO and NC) to one folder
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/merged_NO-NC_counts/
 
-##### make genelist.txt
+##### Make genelist.txt
 format should be as follows:
 
-| GeneName |
-| --- |
-| contig1name |
-| contig2name |
-| contig3name |
-| contig4name |
+GeneName |
+--- |
+contig1name |
+contig2name |
+contig3name |
+contig4name |
 
 secure copy from local machine
 
@@ -1002,12 +1012,12 @@ sbatch ParseExpression.sh
 #### Output 
 merged_top-4-ITS2-clades_counts.txt
 
-| GeneName | Sum_Unique total reads of all samples (n=40) |
-| --- | --- |
-| GS_A4.1 | 30204 |
-| GS_F4.2a | 805 |
-| GS_I1 | 408932 |
-| LJ_C161 | 4557 |
+GeneName | Sum_Unique total reads of all samples (n=40) |
+--- | --- |
+GS_A4.1 | 30204
+GS_F4.2a | 805
+GS_I1 | 408932
+LJ_C161 | 4557
 
 Need to check clade I sequences:
 - sequence unique to clade I or other ITS2 clades?
@@ -1016,7 +1026,7 @@ Need to check clade I sequences:
 **All samples matched to at least one clade contig.**
 
 --------------------------------------------------------------------------------------------
-## samtools 
+## Samtools 
 - view alignment
 - copy all *_nof_top-4-clade_ITS2.sam files (all files NO and NC) to one folder
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/subset-fastq_NO/QCFastqs/nofilter/merged_NO-NC_sam/
@@ -1047,7 +1057,9 @@ samtools view -b -S -o alignments/sim_reads_aligned.bam alignments/sim_reads_ali
 ```
 
 > -b: indicates that the output is BAM.
+>
 > -S: indicates that the input is SAM.
+>
 > -o: specifies the name of the output file
 
 BAM files are stored in a compressed, binary format, and cannot be viewed directly 
@@ -1153,16 +1165,16 @@ samtools view *unsorted.bam.bam | sam-less
 - now we will test multiple clade A transcriptomes
 
 --------------------------------------------------------------------------------------------
-## testing (former ITS2 clade A) transcriptomes
+## Testing (former ITS2 clade A) transcriptomes
 ##### Mapping against S_tridacnidorum_CCMP2592_CDS
-- test Raul Gonzalez-Pech et al. 2019 Symbiodinium tridacnidorum
+- test Raúl González-Pech et al. 2019 *Symbiodinium tridacnidorum*
 - S.tridacnidorum_CCMP2592.CDS.fna 
 - ITS2 type A3
 [https://www.biorxiv.org/content/10.1101/783902v1](https://www.biorxiv.org/content/10.1101/783902v1)
 
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_tridacnidorum_CCMP2592_CDS/
 
-#### check quality of assemblies
+#### Check quality of assemblies
 S_tridacnidorum_CCMP2592_CDS
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fna
@@ -1182,7 +1194,7 @@ contigs >= 1000bp = 30253
 contigs >= 2000bp = 15298
 ```
 
-#### make file mappable
+#### Make file mappable
 need bowtie build module - creates 6 files for mapping
 ```
 module load bowtie2/2.2.4
@@ -1193,7 +1205,7 @@ bowtie for mapping
 bowtie2-build /home/vradice/P_ast/refassembly/S_tridacnidorum_CCMP2592_CDS/S.tridacnidorum_CCMP2592.CDS.fna S_tridacnidorum_CCMP2592_CDS
 ```
 
-#### mapping to S_tridacnidorum_CCMP2592_CDS reference
+#### Mapping to S_tridacnidorum_CCMP2592_CDS reference
 
 ```
 nano mapreads_S_tridacnidorum_CCMP2592_CDS.sh
@@ -1248,15 +1260,15 @@ sbatch countexpression_S_tridacnidorum_CCMP2592.sh
 ```
 
 --------------------------------------------------------------------------------------------
-## testing (former ITS2 clade A) transcriptomes
-Mapping against Symbiodinium microadriaticum
-- Gonzalez-Pech et al. 2019
+## Testing (former ITS2 clade A) transcriptomes
+Mapping against *Symbiodinium microadriaticum*
+- González-Pech et al. 2019
 - S.microadriaticum_CassKB8.CDS.fna
 [https://www.biorxiv.org/content/10.1101/800482v1.full](https://www.biorxiv.org/content/10.1101/800482v1.full)
 > /home/vradice/P_ast/refassembly/S_microadriaticum_CassKB8/
 
-#### check quality of assemblies
-# S_microadriaticum_CassKB8
+#### Check quality of assemblies
+### S_microadriaticum_CassKB8
 
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fna
@@ -1276,7 +1288,7 @@ contigs >= 1000bp = 25680
 contigs >= 2000bp = 12612
 ```
 
-#### make file mappable
+#### Make file mappable
 need bowtie build module - creates 6 files for mapping
 ```
 module load bowtie2/2.2.4
@@ -1287,7 +1299,7 @@ bowtie for mapping
 bowtie2-build /home/vradice/P_ast/refassembly/S_microadriaticum_CassKB8/S.microadriaticum_CassKB8.CDS.fna S_microadriaticum_CassKB8
 ```
 
-#### mapping to S_microadriaticum_CassKB8 reference
+#### Mapping to S_microadriaticum_CassKB8 reference
 ```
 nano mapreads_S_microadriaticum_CassKB8.sh
 ```
@@ -1333,16 +1345,18 @@ sbatch countexpression_S_microadriaticum_CassKB8.sh
 ```
 
 --------------------------------------------------------------------------------------------
-## testing (former ITS2 clade A) transcriptomes
-- Mapping against Symbiodinium microadriaticum CCMP2467
-- Genome originally from Aranda et al. 2016 (from culture)
+## Testing (former ITS2 clade A) transcriptomes
+- Mapping against *Symbiodinium microadriaticum* CCMP2467
+- Genome originally from Aranda et al. 2016 (isolated from culture) [https://www.nature.com/articles/srep39734](https://www.nature.com/articles/srep39734)
 - Chen et al. 2019 "Revised genome sequences and annotations of six Symbiodiniaceae taxa"
-- reannotated the genome - Symbiodinium microadriaticum
-- Symbiodinium_microadriaticum.CDS.fna
-[https://espace.library.uq.edu.au/view/UQ:8279c9a](https://espace.library.uq.edu.au/view/UQ:8279c9a)
+[https://onlinelibrary.wiley.com/doi/full/10.1111/jpy.12947](https://onlinelibrary.wiley.com/doi/full/10.1111/jpy.12947)
+  - reannotated the genome - *Symbiodinium microadriaticum*
+  - Symbiodinium_microadriaticum.CDS.fna
+    [https://espace.library.uq.edu.au/view/UQ:8279c9a](https://espace.library.uq.edu.au/view/UQ:8279c9a)
+
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CCMP2467/
 
-#### check quality of assemblies
+#### Check quality of assemblies
 S_microadriaticum_CCMP2467
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fna
@@ -1362,7 +1376,7 @@ contigs >= 1000bp = 20390
 contigs >= 2000bp = 11116
 ```
 
-#### make file mappable
+#### Make file mappable
 need bowtie build module - creates 6 files for mapping
 ```
 module load bowtie2/2.2.4
@@ -1373,7 +1387,7 @@ bowtie for mapping
 bowtie2-build /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CCMP2467/Symbiodinium_microadriaticum.CDS.fna S_microadriaticum_CCMP2467
 ```
 
-#### mapping to S_microadriaticum_CCMP2467 reference
+#### Mapping to S_microadriaticum_CCMP2467 reference
 ```
 nano mapreads_S_microadriaticum_CCMP2467.sh
 ```
@@ -1421,15 +1435,17 @@ sbatch countexpression_S_microadriaticum_CCMP2467.sh
 ```
 
 --------------------------------------------------------------------------------------------
-## testing (former ITS2 clade A) transcriptomes
-- mapping against Symbiodinium tridacnidorum - 
-- Shoguchi 2018 genome 
-- re-annotated by Chen et al. 2019
-- Symbiodinium_tridacnidorum.CDS.fna
-[https://espace.library.uq.edu.au/view/UQ:8279c9a](https://espace.library.uq.edu.au/view/UQ:8279c9a)
+## Testing (former ITS2 clade A) transcriptomes
+- mapping against *Symbiodinium tridacnidorum* 
+- original Shoguchi et al. 2018 genome [https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-018-4857-9](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-018-4857-9)
+- Chen et al. 2019
+  - re-annotated this genome
+  - Symbiodinium_tridacnidorum.CDS.fna
+    [https://espace.library.uq.edu.au/view/UQ:8279c9a](https://espace.library.uq.edu.au/view/UQ:8279c9a)
+
 > /home/vradice/P_ast/refassembly/S_tridacnidorum_Chen-Shoguchi
 
-#### check quality of assemblies
+#### Check quality of assemblies
 S_tridacnidorum_Chen-Shoguchi
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fna
@@ -1449,7 +1465,7 @@ contigs >= 1000bp = 13739
 contigs >= 2000bp = 4990
 ```
 
-#### make file mappable
+#### Make file mappable
 need bowtie build module - creates 6 files for mapping
 module load bowtie2/2.2.4
 
@@ -1458,7 +1474,7 @@ bowtie for mapping
 bowtie2-build /home/vradice/P_ast/refassembly/S_tridacnidorum_Chen-Shoguchi/Symbiodinium_tridacnidorum.CDS.fna S_tridacnidorum_Chen-Shoguchi
 ```
 
-#### mapping to S_tridacnidorum_Chen-Shoguchi reference
+#### Mapping to S_tridacnidorum_Chen-Shoguchi reference
 ```
 nano mapreads_S_tridacnidorum_Chen-Shoguchi.sh
 ```
@@ -1506,13 +1522,14 @@ sbatch countexpression_S_tridacnidorum_Chen-Shoguchi.sh
 ```
 
 --------------------------------------------------------------------------------------------
-## testing (former ITS2 clade A) transcriptomes
-- mapping against Symbiodinium microadriaticum 04-503SCI.03
+## Testing (former ITS2 clade A) transcriptomes
+- mapping against *Symbiodinium microadriaticum* 04-503SCI.03
 - S.microadriaticum_04-503SCI.03.CDS.fna
-[https://www.biorxiv.org/content/10.1101/800482v1.full](https://www.biorxiv.org/content/10.1101/800482v1.full)
+- González-Pech et al. 2019
+  [https://www.biorxiv.org/content/10.1101/800482v1.full](https://www.biorxiv.org/content/10.1101/800482v1.full)
 > /home/vradice/P_ast/refassembly/S_microadriaticum_04-503SCI.03/
 
-#### check quality of assemblies
+#### Check quality of assemblies
 S_microadriaticum_04-503SCI.03
 ```
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py *.fna
@@ -1532,7 +1549,7 @@ contigs >= 1000bp = 22567
 contigs >= 2000bp = 11237
 ```
 
-#### make file mappable
+#### Make file mappable
 need bowtie build module - creates 6 files for mapping
 module load bowtie2/2.2.4
 
@@ -1541,7 +1558,7 @@ bowtie for mapping
 bowtie2-build /home/vradice/P_ast/refassembly/S_microadriaticum_04-503SCI.03/S.microadriaticum_04-503SCI.03.CDS.fna S_microadriaticum_04-503SCI.03
 ```
 
-#### mapping to S_microadriaticum_04-503SCI.03 reference
+#### Mapping to S_microadriaticum_04-503SCI.03 reference
 ```
 nano mapreads_S_microadriaticum_04-503SCI.03.sh
 ```
@@ -1589,17 +1606,17 @@ sbatch countexpression_S_microadriaticum_04-503SCI.03.sh
 ```
 
 --------------------------------------------------------------------------------------------
-## compare 4 clade A transcriptomes
+## Compare 4 clade A transcriptomes
 
-#### check number of reads aligning exactly 1 time
+#### Check number of reads aligning exactly 1 time:
 
-| Name | Isolated from | AVG_Proportion_Single_aligned | AVG_NumSingleAligned |
-|-----------|-----------|-----------|-----------|
-| S_microadriaticum_CassKB8 | Cassiopea (Hawai'i) | 0.0112 | 158675 |
-| S_microadriaticum_04-503SCI.03 | Orbicella faveolata (Florida) | 0.0107 | 152557 |
-| S_microadriaticum_CCMP2467 | Culture | 0.0078 | 108401 |
-| S_tridacnidorum_CCMP2592 | Heliofungia actiniformis (Great Barrier Reef) | 0.0048 | 66033 |
-| S_tridacnidorum_Chen-Shoguchi | Tridacna crocea (Okinawa, 1980; then cultured) | 0.0026 | 36603 |
+Name | Isolated from | AVG_Proportion_Single_aligned | AVG_NumSingleAligned |
+--- | --- | --- | --- |
+S_microadriaticum_CassKB8 | Cassiopea (Hawai'i) | 0.0112 | 158675
+S_microadriaticum_04-503SCI.03 | Orbicella faveolata (Florida) | 0.0107 | 152557
+S_microadriaticum_CCMP2467 | Culture | 0.0078 | 108401
+S_tridacnidorum_CCMP2592 | Heliofungia actiniformis (Great Barrier Reef) | 0.0048 | 66033
+S_tridacnidorum_Chen-Shoguchi | Tridacna crocea (Okinawa, 1980; then cultured) | 0.0026 | 36603
 
 
 **Decided to use S_microadriaticum_CassKB8 transcriptome for symbiont reference.**
@@ -1609,7 +1626,7 @@ sbatch countexpression_S_microadriaticum_04-503SCI.03.sh
 addsuffixtofastaseqnames.py
 > /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/
 
-#### add suffix Past to host reference
+#### Add suffix Past to host reference
 ```
 nano addsuffixtofastaseqnames.sh
 ```
@@ -1633,8 +1650,8 @@ sbatch addsuffixtofastaseqnames.sh
 output:
 > /cm/shared/courses/dbarshis/barshislab/referenceomes/Porites_astreoides/Past_host_All_iso_suffixed.fasta
 
-#### add suffix Sym to Symbiodinium reference
-/> cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/
+#### Add suffix Sym to Symbiodinium reference
+> cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/S_microadriaticum_CassKB8/
 
 ```
 mv S.microadriaticum_CassKB8.CDS.fna SymTranscriptome.fasta
@@ -1670,12 +1687,13 @@ Rename fasta file based on # of contigs
 mv SymTranscriptome_suffixed.fasta 42652_SymTranscriptome_suffixed.fasta
 ```
 
-##### different file size of KenkelTranscriptome_suffixed versus original KenkelTranscriptome
+##### Different file size of KenkelTranscriptome_suffixed versus original KenkelTranscriptome
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_Kenkel
+
+but the number of sequences did not change
 ```
 ls -alh
 ```
-but the number of sequences did not change
 
 Also difference in file size of updated Kenkel full transcriptome
 ```
@@ -1688,13 +1706,12 @@ Also difference in file size of updated Kenkel full transcriptome
 /cm/shared/courses/dbarshis/18AdvBioinf/scripts/avg_cov_len_fasta_advbioinf.py KenkelTranscriptome_suffixed.fasta
 ```
 
-##### check the first 100 names to compare the original vs suffixed versions
+##### Check the first 100 names to compare the original vs suffixed versions
 ```
 grep '>' | head -100 KenkelTranscriptome_suffixed.fasta
 grep '>' | head -100 KenkelTranscriptome.fasta
 ```
-original Kenkel transcriptome had long header text
-all good
+original Kenkel transcriptome had long header text - all good
 
 --------------------------------------------------------------------------------------------
 ## Hybrid reference transcriptome
@@ -1717,7 +1734,7 @@ ls -alh
 ## Map all the P_ast samples to concatenated (host plus symbiont) hybridreference transcriptome
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref/
 
-#### make file mappable
+#### Make file mappable
 need bowtie build module - creates 6 files for mapping
 module load bowtie2/2.2.4
 
@@ -1754,7 +1771,7 @@ cp /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/
 sbatch copy-fastq.sh
 ```
 
-#### mapping to hybridreference
+#### Mapping to hybridreference
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref
 
 ```
@@ -1841,7 +1858,7 @@ ls -alh
 ## Map all the P_ast samples to concatenated (host plus symbiont) hybridreference transcriptome
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref
 
-#### make file mappable
+#### Make file mappable
 need bowtie build module - creates 6 files for mapping
 ```
 module load bowtie2/2.2.4
@@ -1852,7 +1869,7 @@ bowtie for mapping
 bowtie2-build /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/hybridref/hybridreference.fasta hybridreference
 ```
 
-#### mapping to hybridreference
+#### Mapping to hybridreference
 ```
 nano mapreads_hybridreference.sh
 ```
@@ -1897,23 +1914,27 @@ grep "" -c past_seq2iso.tab
 ```
 30740 lines in past_seq2iso.tab
 
-#### add _Past suffix to contig names (column 1) and gene names (column 2) and change seq2iso table to tab delimited
+#### Add "_Past" suffix to contig names (column 1) and gene names (column 2) and change seq2iso table to tab delimited
 
 Use regular expressions:
 > Find:
+>
 > (\w+) (\w+)
 > 
 > Replace:
-> Visual Studio Code uses .net syntax
+>
 > $1_Past\t$2_Past
+>
+> (Visual Studio Code uses .net syntax)
 > 
-> Unix syntax equivalent:  
+> Unix syntax equivalent:
+>
 > \1_Past\t\2_Past
 
 New file:  past_seq2iso_suffixed.tab
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/refassembly/P_ast_full_Kenkel_2014/
 
-#### create symbiont symbiont_seq2iso table
+#### Create symbiont symbiont_seq2iso table
 - symbiont reference transcriptome:  S.microadriaticum_CassKB8.CDS.fna
 - genes only
 - make table with same genename_sym in column 1, and column 2 (no column headers)
@@ -1959,7 +1980,7 @@ mv sym_seq2iso_suffixed.txt sym_seq2iso_suffixed.tab
 ```
 
 --------------------------------------------------------------------------------------------
-## concatenate host and symbiont seq2 iso table
+## Concatenate host and symbiont seq2 iso table
 > /cm/shared/courses/dbarshis/barshislab/VRad/taxons/Porites_astreoides/Paytan/P_ast/mapped_hybridref
 
 ```
@@ -2053,15 +2074,15 @@ cat match_counts.txt
 ## Parse expression to table
 hybrid_seq2iso.tab
 
-#### make genelist.txt
+#### Make genelist.txt
 Format should be:
 
-| GeneName |
-| --- |
-| gene1name |
-| gene2name |
-| gene3name |
-| gene4name |
+GeneName |
+--- |
+gene1name |
+gene2name |
+gene3name |
+gene4name |
 
 secure copy from local machine
 
